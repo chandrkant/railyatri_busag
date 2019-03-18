@@ -1,0 +1,610 @@
+<div id="bus-booking-landing">
+  <div class="bus-sect">
+    <div class="row">
+      <div class="col-md-8 col-xs-12 bus-search">
+        <section>
+          <div class="col-xs-12 bgclr-wht">
+            <h1>
+              <%= image_tag('busbooking/icon-bus.png') %>
+              <span>Bus Tickets Booking</span>
+            </h1>
+          </div>
+          <div class="col-xs-12 bgclr-wht">
+            <%= form_tag "#", :role => "form",:name=>'bus_search',:id=>'bus_book_form' do %>
+            <input name="utf8" type="hidden" value="✓">
+            <input type="hidden" name="authenticity_token" value="pxCq35qhAJxeISr0ikLFYMQePDEKIMxlk3zA7qvgbmwCerRVRfljiB5j7Y4espwVMnZNQECFLVmlmE5jr4R1CA==">
+            <div class="form-group col-lg-5 col-xs-12 no-pad has-feedback">
+              <div class="form-group">
+                <div class="ui-widget">
+                  <p>From</p>
+                  <input type="text" name="from_city"  value="<%=search_params session[:search_params],'from_city'%>" class="form-control citysearch valid" value="" id="from-city"  placeholder="Enter a City">
+                  <input type="hidden" name="from_code" class="valid" value="<%=search_params session[:search_params],'from_code'%>" id="from_code">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-lg-2 col-xs-2 no-pad has-feedback hidden-md hidden-sm hidden-xs">
+              <div class="exchange-circle"><%= image_tag('busbooking/switch-bus-booking.png') %></div>
+            </div>
+            <div class="form-group col-lg-5 col-xs-12 no-pad has-feedback">
+              <div class="form-group">
+                <div class="ui-widget">
+                  <p>To</p>
+                  <input type="text" name="to_city"  class="form-control citysearchdest citysearchdest_new valid" id="to-city" placeholder="Enter a city" value="<%=search_params session[:search_params],'to_city'%>">
+                  <input type="hidden" class="valid" name="to_code" value="<%=search_params session[:search_params],'to_code'%>" id="to_code">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-lg-5 col-xs-12 no-pad has-feedback">
+              <p>Date of Journey</p>
+              <label class="control-label sr-only">DatePicker</label>
+              <input type="text" name="doj" value="<%=search_params session[:search_params],'doj'%>" id="auto-dp" class="form-control date-picker valid" placeholder="dd-mm-yyyy">
+              <i class="fa fa-calendar form-control-feedback date-picker" id="date-picker-icon"></i>
+            </div>
+            <div class="form-group col-lg-2 col-xs-2 no-pad has-feedback"></div>
+            <div class="form-group col-lg-5 col-xs-12 no-pad">
+              <p>Traveller(s)</p>
+              <select name="no_of_pass" id="no_of_pass" class="form-control valid form-control-sm">
+               <!-- <option value="">No. of Passenger</option> -->
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </div>
+            <div class="form-group col-xs-12 no-pad text-right">
+              <button type="submit" onclick="javascript: sendRequest(); return false;" class="btn btn-secondary search-bus-btn">Search Buses</button>
+            </div>
+            <%end%>
+          </div>
+        </section>
+      </div>
+
+       <div class="col-md-4 col-xs-12 bus-offers">
+        <section>
+          <div class="col-xs-12 bgclr-wht">
+            <h2>
+              <%= image_tag('busbooking/icon-offer-bus.png') %>
+              <span>Bus Booking Offers</span>
+            </h2>
+          </div>
+          <div class="col-xs-12 bgclr-wht">
+           <div class="offer-img-block text-center">
+                     <!-- /12756069/web_bus_368x200_search_1 -->
+           <!--  <div id='div-gpt-ad-1546862092471-0' style='height:200px; width:368px;'>
+            <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1546862092471-0'); });
+            </script>
+            </div> -->
+
+            <div style='height:200px; width:368px;'>
+              <% if@img_url.present? %>
+
+                  <% if @img_url[:point_to_url].present? %>
+                    <a href="<%=@img_url[:point_to_url]%>"><%= image_tag('http://images.railyatri.in'+@img_url[:url], :alt => 'Bus Marketing image') %></a>  
+                  <% else %>
+                    <%= image_tag('http://images.railyatri.in'+@img_url[:url], :alt => 'Bus Marketing image') %>
+                <% end %>
+                
+              <% end -%>
+            </div>
+
+            <!--    <label>Save <span>30% Upto &#8377;260 </span></label> 
+              <label><%#= @bus_coupon.nil? ? "Save 30% Upto ₹260" : @bus_coupon['offer_heading'].html_safe %></label>
+               <p> <span></span></p> 
+              <p> <span></span> <%#= @bus_coupon.nil? ? "20% Off upto ₹160 + 10% Cashback on PhonePe" : @bus_coupon['offer_sub_heading'].html_safe %></p>
+              <p class="text-center"><%#= @bus_coupon['coupon_info'].html_safe %></p>-->
+            </div>
+          </div>
+          <!-- <div class="col-xs-12 bgclr-wht">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+              </ol>
+
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <img src="/assets/busbooking/banner-landing-page.png" alt="" class="img-responsive">
+                </div>
+
+                <div class="item">
+                  <img src="/assets/bus_web/offer-image.png" alt="" class="img-responsive">
+                </div>
+
+                <div class="item">
+                  <img src="/assets/bus_web/offer-image.png" alt="" class="img-responsive">
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="rtc-block hide">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="bgclr-wht rtc-title">
+          <h2>
+            <%= image_tag('busbooking/icon-bus.png') %>
+            <span>State Road Transport Buses  <a onclick="load_rtc()"> Find RTC BUSES</a></span>
+          </h2>
+        </div>
+      </div>
+        <div class="col-xs-12">
+        <div class="rtc-group">
+          <a href="/bus-booking/upsrtc">
+            <div class="rtc-stbus-block-md">
+              <p>
+                <%= image_tag('http://images.railyatri.in/ry_images_prod/1939/original/up-state-icon_1.png?1490958270', :alt => 'ry jksrtc logo', :class => 'img-responsive') %>
+              </p>
+              <p>
+                <span>UPSRTC</span> Uttar Pradesh
+              </p>
+              <p>15% Off</p>
+            </div>
+          </a>
+          <a href="/bus-booking/osrtc">
+            <div class="rtc-stbus-block-md">
+              <p>
+                <%= image_tag('http://images.railyatri.in/ry_images_prod/1935/original/odisha-state-icon_1.png?1490958268', :alt => 'ry jksrtc logo', :class => 'img-responsive') %>
+              </p>
+              <p>
+                <span>OSRTC</span> Odisha
+              </p>
+              <p>15% Off</p>
+            </div>
+          </a>
+          <a href="/bus-booking/pepsu">
+            <div class="rtc-stbus-block-md">
+              <p>
+                <%= image_tag('http://images.railyatri.in/ry_images_prod/1936/original/punjab-state-icon_1.png?1490958269', :alt => 'ry jksrtc logo', :class => 'img-responsive') %>
+              </p>
+              <p>
+                <span>PEPSU</span> Punjab
+              </p>
+              <p>15% Off</p>
+            </div>
+          </a>
+          <a href="/bus-booking/hrtc">
+            <div class="rtc-stbus-block-md">
+              <p>
+                <%= image_tag('http://images.railyatri.in/ry_images_prod/1932/original/himachal-state-icon_1.png?1490958267', :alt => 'ry jksrtc logo', :class => 'img-responsive') %>
+              </p>
+              <p>
+                <span>HRTC</span> Himachal
+              </p>
+              <p>15% Off</p>
+            </div>
+          </a>
+          <a href="/bus-booking/jksrtc">
+            <div class="rtc-stbus-block-md">
+              <p>
+                <%= image_tag('http://images.railyatri.in/ry_images_prod/1933/original/J-n-k-state-icon_1.png?1490958268', :alt => 'ry jksrtc logo', :class => 'img-responsive') %>
+              </p>
+              <p>
+                <span>JKSRTC</span> Jammu AND Kashmir
+              </p>
+              <p>15% Off</p>
+            </div>
+          </a>
+          <a href="/bus-booking/ktcl">
+            <div class="rtc-stbus-block-md">
+              <p>
+                <%= image_tag('http://images.railyatri.in/ry_images_prod/1930/original/goa-state-icon_1.png?1490958267', :alt => 'ry jksrtc logo', :class => 'img-responsive') %>
+              </p>
+              <p>
+                <span>KTCL</span> Goa
+              </p>
+              <p>15% Off</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Code commented and replaced with static content
+      <div class="col-xs-12">
+        <div class="rtc-group">
+        <%#@rtc_list.each do |list|%>
+         <%#if list['status']==1%>
+          <a href="<%#=rtcs_search_buses_bus_bookings_path(rtcs: list['rtc_name'].downcase)%>">
+            <div class="rtc-stbus-block-md">
+              <p>
+                <img src="<%#=list['logo_url']%>" alt="ry jksrtc logo" class="img-responsive">
+              </p>
+              <p>
+                <span><%#=list['rtc_name']%></span> <%#=list['rtc_state']%>
+              </p>
+              <p>15% Off</p>
+            </div>
+          </a>
+          <%#end%>
+         <%#end if @rtc_list.present?%>
+        </div>
+      </div>-->
+    </div>
+  </div>
+
+  <div class="bus_desc-route section-sm">
+    <div class="row">
+      <div class="col-xs-8">
+        <div class="bgclr-wht bucket-area clearfix bus_desc">
+          <h2>Bus Booking</h2>
+          <p>
+            Make your bus journeys much simpler than ever before with RailYatri. We have a hassle free bus ticket booking process in place, from beginning to end. Our buses ply across 1 lac routes, so you are sure to find bus options for your travel needs. Powered by a wide network of more than 5000 operators, we are confident of providing you choices that lead to best travel experience.
+          </p>
+          <a id="blink1" href="javascript:void(0);" class="btn">Booking Bus Tickets</a>
+          <a id="blink2" href="javascript:void(0);" class="btn">Benefits</a>
+          <a id="blink3" href="javascript:void(0);" class="btn">Documents Required</a>
+          <a id="blink4" href="javascript:void(0);" class="btn">Cancellation</a>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="bgclr-wht bucket-area clearfix bus_route">
+          <h2>Top 5 Routes</h2>
+          <p>
+            <span>Chennai to Bangalore Buses</span>
+            <a href="/bus-booking/chennai-to-bangalore-bengaluru-buses" class="btn btn-link">Book Now</a>
+          </p>
+          <p>
+            <span>Pune to Mumbai Buses</span>
+            <a href="/bus-booking/pune-to-mumbai-buses" class="btn btn-link">Book Now</a>
+          </p>
+          <p>
+            <span>Indore to Bhopal Buses</span>
+            <a href="/bus-booking/indore-to-bhopal-buses" class="btn btn-link">Book Now</a>
+          </p>
+          <p>
+            <span>Delhi to Chandigarh Buses</span>
+            <a href="/bus-booking/new-delhi-to-chandigarh-buses" class="btn btn-link">Book Now</a>
+          </p>
+          <p>
+            <span>Patna to Siliguri Buses</span>
+            <a href="/bus-booking/patna-to-siliguri-buses" class="btn btn-link">Book Now</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bus-features section-sm">
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="bgclr-wht bucket-area clearfix">
+          <div class="col-xs-4 icon-box">
+            <%= image_tag('bus_web/rupees-icon.png', :alt => 'ruppee icon', :class => 'img-responsive') %>
+          </div>
+          <div class="col-xs-8 content-box">
+            <label>Lowest Price Guaranteed</label>
+            <p>Buy cheapest or get double the difference back.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-xs-12">
+        <div class="bgclr-wht bucket-area clearfix">
+          <div class="col-xs-4 icon-box">
+            <%= image_tag('bus_web/road-icon.png', :alt => 'read icon', :class => 'img-responsive') %>
+          </div>
+          <div class="col-xs-8 content-box">
+            <label>1 Lakh+ Routes</label>
+            <p>Make your road journeys easier across India with 5000+ Operators.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-xs-12">
+        <div class="bgclr-wht bucket-area clearfix">
+          <div class="col-xs-4 icon-box">
+            <%= image_tag('bus_web/headset-icon.png', :alt => 'headset icon', :class => 'img-responsive') %>
+          </div>
+          <div class="col-xs-8 content-box">
+            <label>Call Support</label>
+            <p>Your queries are met by our experts throughout the week, 9 AM to 9 PM.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- new content of bus booking-->
+  <div class="new_content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="content">
+          <h2 class="content-heading" style="color: #999999; font-weight: 600; color: #404040;">Why choose RailYatri for quick & easy bus ticket booking?</h2>
+          <div class="no-pad">
+            <div class="bus-booking-content">
+              <h3 class="lable">Bus Booking made simple</h3>
+              <p class="bus-content"> Over the last couple of years travelers are embracing bus travel as a great mode of exploring India and the latest travel apps have ushered this change by providing a hassle free bus booking process.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Convenience of online bus booking</h3>
+              <p class="bus-content"> Bus booking was never this simple! Online bus booking allows the travelers to filter buses as per their travel needs and book tickets from the comforts of their homes. Great offers and discounts are available with online bus booking too.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">App based bus ticket booking</h3>
+              <p class="bus-content">Travel apps and websites have transformed the bus ticket booking landscape! Today’s travelers can book bus tickets from anywhere, anytime. They can select buses as per their budget, time schedule and choice of destination.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Luxurious, yet affordable Volvo bus booking</h3>
+              <p class="bus-content"> Reputed travel apps and websites allow the travelers an opportunity to book comfortable rides in a Volvo bus. While a journey in Volvo bus stays high on comfort levels, today it is also affordable in terms of booking costs.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Online bus ticket booking through apps or websites</h3>
+              <p class="bus-content">Travel websites and apps have triggered a change in the Indian travel mindset. Online bus ticket booking is gaining impetus and its popularity has been catalyzed by the hassle free booking and refund process offered by travel apps and websites.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Bus tickets for last minute travel</h3>
+              <p class="bus-content">When train tickets are unavailable and flight rates are too high; the modern travelers can always book bus tickets. With better roads and comfortable range of buses, confirmed bus tickets are a great alternative for last minute Indian travel needs.
+              </p>
+            </div>
+           </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <!-- /new content of bus booking-->
+  <div class="bus_faqs section-sm">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="bgclr-wht bus_faq-list">
+          <h2>FAQ</h2>
+          <div class="no-pad">
+            <p id="blink1-pos" class="faqs-Qs">How to book my bus tickets using RailYatri?</p>
+            <div class="faqs-As">
+              At RailYatri we believe in offering a hassle free experience to every user. So, we have kept a very simple bus ticket booking process. The steps involved are:
+              <div>
+                <label class="headng">Bus Booking through the Website</label>
+                <p>
+                  Visit the <a class="a-link" href="https://www.railyatri.in">RailYatri.in</a> website and select Bus Ticket Booking option.
+                </p>
+                <p>
+                  Choose Source and Destination cities, enter the journey date and select the number of travellers.
+                </p>
+                <p>
+                  Look through our list of buses for the selected route. Use filters for Bus type, Departure time, Operators (private or government bus online booking is available with us) and Price range to quicken your search.
+                </p>
+                <p>
+                  Once you have made the choice, it is now time to select the seats and Boarding Point.
+                </p>
+                <p>
+                  In the next step, we would ask for Contact details (such as email ID, Phone number, name of passenger and gender) for communication purposes. Make sure you provide us the accurate details here.
+                </p>
+                <p>
+                  Proceed to the payment page, where you can avail our bus booking offers. Make the payment and a confirmation SMS/email would be triggered right away to the mentioned contact details.
+                </p>
+              </div>
+              <div>
+                <label class="headng">Bus Booking through the App</label>
+                <p>
+                  Open the <a class="a-link" href="http://m.rytr.in/home-page">RailYatri</a> app, tap on Bus Tickets.
+                </p>
+                <p>
+                  Enter the Source and Destination cities, choose date of journey, number of travellers and Search Buses.
+                </p>
+                <p>
+                  Filter the available Buses with options such as Bus type, Operators (private or government bus online booking is available) and Price range. You can also Sort results with Departure times, Duration of journey as well as the Bus fare.
+                </p>
+                <p>
+                  In the next step, you would have to choose a seat as well as the Boarding Point and Dropping Point.
+                </p>
+                <p>
+                  You have to now provide the appropriate Contact Details (which would be used in all the correspondence) as well as Passenger Details.
+                </p>
+                <p>
+                  You would be taken to the Payment Page. Do care to check out our exciting bus booking offers before making the payment. Once the payment is done, a confirmation SMS/email would be sent.
+                </p>
+              </p>
+            </div>
+            <p id="blink2-pos" class="faqs-Qs">What are the benefits of booking my bus tickets through RailYatri.in?</p>
+            <div class="faqs-As">
+              <p>Wide Network of Operators: We have tied up with the leading bus ticket booking aggregators - RedBus. This gives us a wide network of buses Pan-India. Presently our network contains more than 5000 operators providing services across 1 lac routes! </p>
+              <p>
+                Privileges for Passengers: We allow our users to choose their seats, boarding points, timings and budget. With so many options, you can surely make the best travel decision.
+              </p>
+              <p>
+                Online or Mobile: Our bus booking system allows users to book bus tickets on the go using their mobile (through the RailYatri mobile application) or online using the RailYatri.in website, whichever way you want it.
+              </p>
+              <p>
+                Great Offers: RailYatri.in has a list of exciting travel ticket booking offers that would make your bus travels lighter on the pockets.
+              </p>
+            </div>
+            <p class="faqs-Qs">Do I need to take a printout of the bus ticket?</p>
+            <p class="faqs-As">
+              The policies vary from one bus operator to the next. As you would find at the <a class="a-link" href="https://www.railyatri.in">RailYatri.in</a> website we have demarcated the operators who support mTicket. In such instances, all you need to do is show the SMS sent from our end and make the journey. While there are other operators who would ask for ticket printouts, before letting you start the journey. In such instances you need to take a printout of the mail we have sent to your mentioned email ID.
+            </p>
+            <p id="blink3-pos" class="faqs-Qs">What documents should I carry while boarding a bus?</p>
+            <p class="faqs-As">
+              Just showing mTicket or ticket printout does not guarantee a journey. You would be asked for identification prooof before boarding. So, make sure you carry a valid ID proof in the form of  Driving license, Student ID card, Aadhar Card, Company ID card, Passport, PAN card or Voter ID card.
+            </p>
+            <p class="faqs-Qs">What happens if I do not receive bus ticket booking confirmation email or SMS?</p>
+            <p class="faqs-As">
+              If you do not receive the confirmation mail or SMS from our end there may be a number of reasons responsible for that (wrong contact details, technical glitches, etc.). In such a situation there is abslutely no reason to panic. The ticket has been booked as long as it shows on the Order History page of the RailYatri app or website. You can also get in touch with us, requesting a resending of the Confirmation mail or SMS.
+            </p>
+            <p class="faqs-Qs">What happens when there is a change of bus?</p>
+            <p class="faqs-As">
+              We try to provide what we promise upfront, but there are many unavoidable instances when we have to make an exception to this rule. If the bus operator changes the bus type (due to certain unavoidable circumstances), RailYatri.in will refund the differential fares to the customer. But the customer needs to raise this issue within 24 hours of the journey.
+            </p>
+            <p class="faqs-Qs">How would I be intimated if the bus is cancelled, timing is changed or the route is differed?</p>
+            <p class="faqs-As">
+              Again, due to certain unaviodable circumstances our bus operators might have to change the timing, route or cancel the bus service altogether. In such instances, we will send SMS and in-app notifications to the customer, as soon as we receive such information. However, we are not responsible about the timeliness of the information if the customer provides a wrong contact details or keeps the mobile switched off.
+            </p>
+            <p class="faqs-Qs">What to do if I face any problems while booking bus tickets?</p>
+            <p class="faqs-As">
+              If you are having problems in bus ticket booking you can get in touch with our customer services between 8 AM-9 PM or shoot a mail at: care@railyatri.in.
+            </p>
+            <p id="blink4-pos" class="faqs-Qs">How can I cancel my bus tickets through RailYatri?</p>
+            <div class="faqs-As">
+              Bus ticket cancellation through RailYatri</a> is a simple. You can cancel your tickets  through RailYatri's website or app.
+              <div>
+                <label>Cancellations using the App</label>
+                <p>
+                  Go to “My Orders” section on the app.
+                </p>
+                <p>Select the bus ticket you would like to cancel.</p>
+                <p>Click on the “Cancel Ticket” button. And it's done!</p>
+              </div>
+              <div>
+                <label>Cancellations through the Website</label>
+                <p>
+                  Visit the Home page of RailYatri.in and click on ‘Cancellations’ tab.
+                </p>
+                <p>Select your ‘Order Type’ as 'Bus'.</p>
+                <p>Enter your ‘Order ID’ and ‘Mobile Number’.</p>
+                <p>An OTP will be sent to your registered number for verification. That’s it!</p>
+              </div>
+            </div>
+            <p class="faqs-Qs">NOTE:</p>
+            <p class="faqs-As">
+              <p>The onward refund process, for both these remains same.</p>
+              <p>If you have booked tickets through the app, you can cancel them through the web and vice-versa.</p>
+              <p>For more details about our Refund Policy, <a class="a-link" href="http://www.railyatri.in/faq">click here</a>. </p>
+            </p>
+            <!-- New content updated for bus start-->
+           <!--  <div class="bus-blk-updtd">
+              <h2>Online Volvo and AC bus ticket booking</h2>
+              <p class="faqs-As">
+               The dynamics of Indian long distance bus booking have changed significantly over the years. Today, India is blessed with various types of buses (Volvo, AC coaches, luxury buses, semi-deluxe buses, etc.) and these new line of buses are providing optimum comforts to the travelers.
+              </p>
+              <p class="faqs-As">
+                Bus ticket booking process in India has become easier than it ever was. Various apps and websites are today dealing with bus tickets. Travelers can book among various categories of buses (Volvo, AC coaches, luxury buses, semi-deluxe buses, etc.). They can also choose among government buses or private operators.
+              </p>
+              <p class="faqs-As">
+               Private operators as well as the RTCs are today offering many choices for bus travelers in India. Then can choose Volvo buses and other AC buses online to make their journeys really comfortable. Many travel websites and apps allow users to filter bus searches by the model and type of buses.
+              </p>
+            </div> -->
+            <!-- New content updated for bus End-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="bus_pop-links section-sm">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="bgclr-wht bus_pop-links-list">
+          <h2>Popular Bus Operators</h2>
+          <a href="">APSRTC</a>
+          <a href="">TSRTC</a>
+          <a href="">KSRTC</a>
+          <a href="">GSRTC</a>
+          <a href="">HRTC</a>
+          <a href="">MSRTC</a>
+          <a href="">RSRTC</a>
+          <a href="">VRL Travels</a>
+          <a href="">SRS Travels</a>
+          <a href="">Orange Travels</a>
+          <a href="">Morning Star Travels</a>
+          <a href="">KPN Travels</a>
+          <a href="">Averi Travels</a>
+          <a href="">Kallada Travels</a>
+          <a href="">Neeta Travels</a>
+          <a href="">SVR Travels</a>
+          <a href="">Diwakar Travels</a>
+          <a href="">Paulo Travels</a>
+          <a href="">Meghana Travels</a>
+          <a href="">Royal Cruiser Travels</a>
+          <a href="">SRE Travels</a>
+          <a href="">SRM Travels</a>
+          <a href="">Rathimeena Travels</a>
+          <a href="">Seabird Travels</a>
+          <a href="">Sri Krishna Travels</a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <%
+  @bus_table = [{"source"=>"Chennai", "destination"=>"Coimbatore", "nofoperator"=>"15", "nofbuses"=>"96", "distance_kms"=>"508", "starting_price"=>"480"}, {"source"=>"Bangalore/Bengaluru", "destination"=>"Chennai", "nofoperator"=>"13", "nofbuses"=>"65", "distance_kms"=>"345", "starting_price"=>"285"}, {"source"=>"Madurai", "destination"=>"Chennai", "nofoperator"=>"21", "nofbuses"=>"169", "distance_kms"=>"462", "starting_price"=>"340"},
+  {"source"=>"Indore", "destination"=>"Bhopal", "nofoperator"=>"50", "nofbuses"=>"9", "distance_kms"=>"195", "starting_price"=>"135"}, {"source"=>"Bangalore/Bengaluru", "destination"=>"Hyderabad", "nofoperator"=>"13", "nofbuses"=>"75", "distance_kms"=>"568", "starting_price"=>"480"}, {"source"=>"Pune", "destination"=>"Indore", "nofoperator"=>"12", "nofbuses"=>"52", "distance_kms"=>"593", "starting_price"=>"574"},
+  {"source"=>"Coimbatore", "destination"=>"Bangalore/Bengaluru", "nofoperator"=>"39", "nofbuses"=>"5", "distance_kms"=>"365", "starting_price"=>"390"}, {"source"=>"Hyderabad", "destination"=>"Kandukur(Prakasam)", "nofoperator"=>"1", "nofbuses"=>"3", "distance_kms"=>"368", "starting_price"=>"510"}, {"source"=>"Nagpur", "destination"=>"Pune", "nofoperator"=>"3", "nofbuses"=>"17", "distance_kms"=>"712", "starting_price"=>"767"}, 
+  {"source"=>"Durgapur", "destination"=>"Kolkata", "nofoperator"=>"-", "nofbuses"=>"-", "distance_kms"=>"171", "starting_price"=>"333"}, 
+  {"source"=>"Ahmedabad", "destination"=>"Jamnagar", "nofoperator"=>"15", "nofbuses"=>"78", "distance_kms"=>"305", "starting_price"=>"330"}, 
+  {"source"=>"Indore", "destination"=>"Mumbai", "nofoperator"=>"5", "nofbuses"=>"21", "distance_kms"=>"583", "starting_price"=>"602"}, {"source"=>"Bangalore/Bengaluru", "destination"=>"Bijapur", "nofoperator"=>"-", "nofbuses"=>"-", "distance_kms"=>"528", "starting_price"=>"480"}, {"source"=>"Bangalore/Bengaluru", "destination"=>"Mysore", "nofoperator"=>"8", "nofbuses"=>"50", "distance_kms"=>"149", "starting_price"=>"150"}, {"source"=>"Asansol", "destination"=>"Kolkata", "nofoperator"=>"-", "nofbuses"=>"-", "distance_kms"=>"212", "starting_price"=>"185"},
+  {"source"=>"Hyderabad", "destination"=>"Ongole", "nofoperator"=>"2", "nofbuses"=>"21", "distance_kms"=>"327", "starting_price"=>"420"}, {"source"=>"Vadodara/Baroda", "destination"=>"Jamnagar", "nofoperator"=>"13", "nofbuses"=>"43", "distance_kms"=>"379", "starting_price"=>"376"}, {"source"=>"Jalgaon", "destination"=>"Pune", "nofoperator"=>"6", "nofbuses"=>"11", "distance_kms"=>"389", "starting_price"=>"450"}, 
+  {"source"=>"Hyderabad", "destination"=>"Nellore", "nofoperator"=>"3", "nofbuses"=>"22", "distance_kms"=>"454", "starting_price"=>"540"},
+   {"source"=>"Madurai", "destination"=>"Bangalore/Bengaluru", "nofoperator"=>"8", "nofbuses"=>"50", "distance_kms"=>"436", "starting_price"=>"390"}, 
+  {"source"=>"Rajkot", "destination"=>"Ahmedabad", "nofoperator"=>"29", "nofbuses"=>"158", "distance_kms"=>"214", "starting_price"=>"30"}, 
+  {"source"=>"Chennai", "destination"=>"Theni", "nofoperator"=>"6", "nofbuses"=>"45", "distance_kms"=>"506", "starting_price"=>"435"}, 
+  {"source"=>"Bhubaneswar", "destination"=>"Baripada", "nofoperator"=>"-", "nofbuses"=>"-", "distance_kms"=>"250", "starting_price"=>"330"},
+  {"source"=>"Pune", "destination"=>"Nanded", "nofoperator"=>"15", "nofbuses"=>"46", "distance_kms"=>"520", "starting_price"=>"527"}, 
+  {"source"=>"Ahmedabad", "destination"=>"Junagadh", "nofoperator"=>"6", "nofbuses"=>"19", "distance_kms"=>"315", "starting_price"=>"305"},
+  {"source"=>"Hyderabad", "destination"=>"Guntur", "nofoperator"=>"2", "nofbuses"=>"32", "distance_kms"=>"270", "starting_price"=>"390"},
+  {"source"=>"Patna", "destination"=>"Purnia", "nofoperator"=>"3", "nofbuses"=>"14", "distance_kms"=>"300", "starting_price"=>"240"}, 
+  {"source"=>"Salem", "destination"=>"Chennai", "nofoperator"=>"9", "nofbuses"=>"68", "distance_kms"=>"354", "starting_price"=>"315"}, 
+  {"source"=>"Hyderabad", "destination"=>"Visakhapatnam", "nofoperator"=>"5", "nofbuses"=>"39", "distance_kms"=>"620", "starting_price"=>"645"}, {"source"=>"Proddutur", "destination"=>"Hyderabad", "nofoperator"=>"-", "nofbuses"=>"-", "distance_kms"=>"384", "starting_price"=>"800"}]
+  
+  %>
+
+
+  <div class="bus-seo-sect section-sm">
+    <div class="row" style="margin-top: 30px;">
+      <div class="col-xs-12">
+        <div class="bgclr-wht bus-seo_block">
+          <div>
+            <h2>Find all important bus ticket booking routes</h2>
+            <table class="table table-condensed table-responsive" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th width="20%">Route</th>
+                  <th width="10%">Starting Price</th>
+                  <th width="10%">Total Operators</th>
+                  <th width="10%">No. of Buses</th>
+                  <th width="10%">Distance</th>
+                 <!--  <th width="5%"></th> -->
+                </tr>
+              </thead>
+          <%   @bus_table.each do |seo| %>
+              <tr>
+                <td width="20%">
+                <a href="/bus-booking/<%=seo["source"].downcase.gsub('/','-')%>-to-<%=seo["destination"].downcase.gsub('/','-')%>-buses" target="_blank"> <%=seo["source"].capitalize %> To <%=seo["destination"].capitalize%> Buses</a>
+                </td>
+                <td width="10%">
+                   <%=seo["starting_price"]!='-' ?  '₹ '+seo["starting_price"] : 'N/A'%>
+                </td>
+                <td width="10%">
+                   <%=seo["nofoperator"]%>
+                </td>
+                <td width="10%"><%=seo["nofbuses"]%></td>
+                <td width="10%"><%=seo["distance_kms"]%> KM</td>
+                <!-- <td width="5%">
+                  <a href="javascript(0);" class="btn table-btn">Book</a>
+                </td> -->
+              </tr>
+          <%end%>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="city-source-list" data-city="<%=@citie_list.to_json%>"></div>

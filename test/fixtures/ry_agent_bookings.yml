@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  railyatri_user: one
+  bus_trip: one
+  payment_transaction: one
+  status: false
+  booked_by: MyString
+  booking_discount: 1.5
+
+two:
+  user: two
+  railyatri_user: two
+  bus_trip: two
+  payment_transaction: two
+  status: false
+  booked_by: MyString
+  booking_discount: 1.5

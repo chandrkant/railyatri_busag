@@ -1,0 +1,33 @@
+
+
+<%#= render "users/shared/links" %>
+<div id="formWrapper">
+
+<div id="form">
+<div class="logo">
+<h1 class="text-center head">Agent Login</h1>
+</div>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-item">
+      <p class="formLabel">Email</p>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "form-style" %>
+      <!-- <input type="email" name="email" id="email" class="form-style" autocomplete="off"/> -->
+    </div>
+    <div class="form-item">
+      <p class="formLabel">Password</p>
+      <%= f.password_field :password, autocomplete: "current-password",class: "form-style" %>
+      <!-- <input type="password" name="password" id="password" class="form-style" /> -->
+      <!-- <div class="pw-view"><i class="fa fa-eye"></i></div> -->
+      <p><a href="#" ><small>Forgot Password ?</small></a></p>  
+    </div>
+    <div class="form-item">
+    <p class="pull-left"><a href="#"><small>Register</small></a></p>
+    <%= f.submit "Log in",class: 'login pull-right' %>
+    <!-- <input type="submit" class="login pull-right" value="Log In"> -->
+    <div class="clear-fix"></div>
+    </div>
+    <%end%>
+</div>
+</div>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

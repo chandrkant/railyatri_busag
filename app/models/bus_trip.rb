@@ -1,0 +1,2 @@
+class BusTrip < ApplicationRecord
+end

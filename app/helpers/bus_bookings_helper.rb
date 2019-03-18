@@ -1,0 +1,2 @@
+module BusBookingsHelper
+end

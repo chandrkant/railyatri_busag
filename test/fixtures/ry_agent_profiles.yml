@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  address: MyText
+  user: one
+  current_discount: 1.5
+
+two:
+  name: MyString
+  address: MyText
+  user: two
+  current_discount: 1.5

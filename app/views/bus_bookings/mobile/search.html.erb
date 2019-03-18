@@ -1,0 +1,279 @@
+<div class="m-busbooking">
+  <div class="bgclr-wht shadow offer-img">
+    <div class="offer-img-search">
+      <%= image_tag('bus_web/ry-lw-close.svg', :alt => 'close',id: 'ry-Close') %>
+      <%#=image_tag('mobile/TopBanner_Mweb_Bus.png',class: 'img-responsive')%>
+      <% if@img_url.present? %>
+        <% if @img_url[:point_to_url].present? %>
+          <a href="<%=@img_url[:point_to_url]%>"><%= image_tag('http://images.railyatri.in'+@img_url[:url], :alt => 'Food Marketing image',class: 'img-responsive') %></a>
+        <% else %>
+          <%= image_tag('http://images.railyatri.in'+@img_url[:url], :alt => 'Food Marketing image',class: 'img-responsive') %>
+        <% end%>        
+      <% end %>
+    </div>
+  </div>
+
+  <div class="container-fluid bgclr-wht marg-top-15 ry-tile card-margin">
+    <div class="row">
+      <div class="bus-search-block">
+        <form action = "<%=m_bus_list_bus_bookings_path%>" method="post" name="bus_search" id = "bus_search_form">
+         <input type="hidden" name="authenticity_token" value="pxCq35qhAJxeISr0ikLFYMQePDEKIMxlk3zA7qvgbmwCerRVRfljiB5j7Y4espwVMnZNQECFLVmlmE5jr4R1CA==">
+          <div class="col-xs-12">
+            <!-- <div class="col-xs-12 no-pad"> -->
+              <div class="col-xs-12 input-block stn-from" style="padding-left: 0px;">
+                <!-- <label class="visibility-hide" for="from-city">From</label> -->
+                <div class="col-xs-5 no-pad bus_to-city">
+                  <div class="ry-floating-input">
+                    <input type="text" name="from_city" placeholder="" class="citysearch valid" id="from-city" value="<%=search_params session[:search_params],'from_city'%>">
+                    <label class="" for="from-city">From City</label>
+                  </div>
+                 <input type="hidden" name="from_code" class="valid" value="<%=search_params session[:search_params],'from_code'%>" id="from_code">
+                </div>
+                <div class="col-xs-2 no-pad">
+                  <%=image_tag('busbooking/switch.png',class: "img-responsive switch-stn", onclick: "exchange()")%>
+                </div>
+
+                <div class="col-xs-5 no-pad bus_from-city">
+                  <!-- <label class="visibility-hide" for="to-city">To</label> -->
+                  <div class="ry-floating-input">
+                    <input type="text"  name="to_city" placeholder="" class="citysearchdest valid" id="to-city" value="<%=search_params session[:search_params],'to_city'%>">
+                    <label class="" for="to-city">To City</label>
+                  </div>
+                  <input type="hidden" class="valid" name="to_code" value="<%=search_params session[:search_params],'to_code'%>" id="to_code">
+                </div>
+              </div>
+            <!-- </div> -->
+          </div>
+
+          <div class="col-xs-12 input-block">
+            <div class="pk-date">
+              <div class="col-xs-4 no-padlt" onclick="setDatePicker()">
+                <label style="margin-bottom: -5px !important;color: #757575;">Date</label>
+                <div id="newCal">
+                  <span id="dp-date"></span>
+                  <span id="dp-day" class="l-grey"></span>
+                  <span id="dp-month" class="l-grey"></span>
+                </div>
+                <input type="hidden" name="doj"  placeholder="DD/MM/YYYY" id="datepicker" class="calendar valid" readonly value="<%=search_params session[:search_params],'doj'%>">
+              </div>
+
+              <div class="col-xs-8 no-padrt text-right pk-date-tt">
+                <a href="javascript:void(0)" class="font-xs inactive-date" onclick="setDate(1,this)">Tomorrow</a>
+                <a href="javascript:void(0)" class="font-xs inactive-date" onclick="setDate(2,this)">Day After</a>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="bus_types" id="bus_types" value="">
+          <div class="col-xs-12 bus-type_filter">
+            <a href="javascript:void(0)" class="font-xs" onclick="addBusType('AC',this);">AC</a>
+            <a href="javascript:void(0)" class="font-xs" onclick="addBusType('luxury',this);">Luxury</a>
+            <a href="javascript:void(0)" class="font-xs" onclick="addBusType('sleeper',this);">Sleeper</a>
+          </div>
+
+          <div class="col-xs-5 col-xs-offset-1 input-block pk-time hide">
+            <label>Traveller(s)</label>
+            <span class="dec button" data-text="minus" style="position: absolute;    top: 20px;left: 25px;z-index: 99;">
+              <i class="fa fa-minus" aria-hidden="true" style="font-size: 13px;color: #757575;"></i>
+            </span>
+            <input type="text" name="no_of_pass" id="french-hens" value="1" class="col-xs-4" readonly="" style="position: relative; text-align: center;font-size: 18px;">
+            <span class="inc button" data-text="plus" style="position: absolute;top: 20px;right: 35px;">
+              <i class="fa fa-plus" aria-hidden="true" style="font-size: 13px;color: #757575;"></i>
+            </span>
+            <!-- <input type="text" name="no_of_pass" placeholder=""> -->
+          </div>
+
+          <div class="col-xs-12 bus-srch-btn">
+            <button class="submit-btn" onclick="javascript: sendRequest(); window.setTimeout(txt_2, 4000); window.setTimeout(txt_3,8000);return false;">SEARCH BUSES</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--<div><a href="#" onclick="openQuick()">quick book</a></div>-->
+  <div id="quick_book_review" class="ry-tile card-margin">
+  </div>
+  <%if bus_complete_book_url%>
+  <div class="container-fluid bgclr-wht ry-tile card-margin">
+    <div class="row">
+      <a href="<%=bus_complete_book_url%>">
+      <div class="book-unfin_block">
+        <label class="f-black font-sm font-w500">
+          Complete Your Booking
+        </label>
+        <div class="book-unfin-route d-grey">
+          <span class="text-capital"><%=session[:search_params]['from_city']%></span>
+          <span>
+            <%=image_tag('busbooking/forward-arrow (1).png',width: "15px", height:"15px")%>
+          </span>
+          <span class="text-capital"><%=session[:search_params]['to_city']%></span>
+        </div>
+        <div class="book-unfin-details l-grey">
+          <span><%=session[:search_params]['doj'].to_date.strftime('%d %b, %A')%> </span>
+          <!-- <span>Friday, </span> -->
+          <!-- <span>Royal Travels</span> -->
+        </div>
+      </div>
+      </a>
+    </div>
+  </div>
+  <%end%>
+  <div class="container-fluid card-margin">
+    <div class="row">
+      <div class="bus-offer-card">
+        <div class="bus-offer-card_offers">
+          <ul class="nav">
+            <%@slider_data.each_with_index do |ofr,idx|%>
+            <li data-target="#menu_carousel" data-slide-to="<%=idx%>" class="active">
+              <a href="<%=ofr['deep_Link']%>">
+                <p class="">
+                  <%=image_tag(ofr['detail_image_url'],class: 'img-responsive')%>
+                </p>
+              </a>
+            </li>
+            <%end%>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%if false && @recent_cities_search.present?%>
+  <div class="container-fluid bgclr-wht ry-tile card-margin">
+    <div class="row">
+      <div class="recent-search-block">
+        <label class="block-title">
+          RECENT SEARCHES
+        </label>
+        <ul>
+          <%@recent_cities_search.each do |cities_search|%>
+            <li>
+              <span><%=cities_search[:from_city]%></span>
+              <%=image_tag("busbooking/forward-arrow (1).png",class: "img-responsive")%>
+              <span><%=cities_search[:to_city]%></span>
+              <span><%=cities_search[:doj].to_date.strftime("%d %b")%></span>
+            </li>
+          <%end if @recent_cities_search.present?%>
+        </ul>
+        <!-- <div class="col-xs-12">
+         <a href="javascript:void(0);" class="font-md">View More</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <%end%>
+  <div class="container-fluid bgclr-wht ry-tile card-margin">
+  <!-- new content of bus booking-->
+   <div class="new_content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="content">
+          <h2 style="font-size: 16px; color: #999999; font-weight: 500; color: #404040;">Why choose RailYatri for quick & easy bus ticket booking?</h2>
+          <div class="no-pad">
+            <div class="bus-booking-content">
+               <h3 class="lable">Bus Booking made simple</h3>
+              <p class="bus-content"> Over the last couple of years travelers are embracing bus travel as a great mode of exploring India and the latest travel apps have ushered this change by providing a hassle free bus booking process.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Convenience of online bus booking</h3>
+              <p class="bus-content"> Bus booking was never this simple! Online bus booking allows the travelers to filter buses as per their travel needs and book tickets from the comforts of their homes. Great offers and discounts are available with online bus booking too.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">App based bus ticket booking</h3>
+              <p class="bus-content">Travel apps and websites have transformed the bus ticket booking landscape! Today’s travelers can book bus tickets from anywhere, anytime. They can select buses as per their budget, time schedule and choice of destination.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Luxurious, yet affordable Volvo bus booking</h3>
+              <p class="bus-content"> Reputed travel apps and websites allow the travelers an opportunity to book comfortable rides in a Volvo bus. While a journey in Volvo bus stays high on comfort levels, today it is also affordable in terms of booking costs.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Online bus ticket booking through apps or websites</h3>
+              <p class="bus-content">Travel websites and apps have triggered a change in the Indian travel mindset. Online bus ticket booking is gaining impetus and its popularity has been catalyzed by the hassle free booking and refund process offered by travel apps and websites.
+              </p>
+            </div>
+            <div class="bus-booking-content">
+              <h3 class="lable">Bus tickets for last minute travel</h3>
+              <p class="bus-content">When train tickets are unavailable and flight rates are too high; the modern travelers can always book bus tickets. With better roads and comfortable range of buses, confirmed bus tickets are a great alternative for last minute Indian travel needs.
+              </p>
+            </div>
+           </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <!-- /new content of bus booking-->
+  <div class="container-fluid bgclr-wht ry-tile card-margin">
+    <div class="row">
+      <div class="user-review-block">
+        <label class="block-title">
+          user's review
+        </label>
+        <div class="user-review-info">
+              <div class="col-xs-3">
+                  <%= image_tag('https://images.railyatri.in/ry_images_prod/1877/original/bus_review.JPG?1490615885', :alt => 'ry user avatar icon', :class => 'img-responsive img-circle') %>
+                </div>
+                <div class="col-xs-9 no-pad user-review-text">
+                  <label class="font-sm">Saved my travel plan</label>
+                  <p class="font-sm">My train ticket from Delhi to Katra was wait listed and the app timely informed me about the low confirmation probability. It also suggested me to book a bus ticket instead. I got a confirmed bus ticket within minutes and that too in a luxury Volvo Bus...</p>
+                  <p class="font-xs">Aarav Malhotra,Gurgaon</p>
+                </div>
+                <%=link_to "View All", user_bus_reviews_path,class: "font-xs" %>
+          <!-- <a href="javascript:void(0);" class="font-md">View All</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row search_abs" id="from_search_suggestion_page" style="display: none;">
+  <%=render :partial => 'from_bus_search_suggestion' %>
+  </div>
+
+  <div class="row search_abs" id="to_search_suggestion_page" style="display: none;">
+    <%=render :partial => 'to_bus_search_suggestion' %>
+  </div>
+  </div>
+<!-- Modal -->
+<div id="hotel-search-pop-up">
+  <div class="modal" id="htl-search-pop-up" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="htl-pop-top-sect">
+            <span class="from-place">Bangalore</span>
+            <span class="arrow-icon">&#x2192;</span>
+            <!-- <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+            <span class="to-place text-right">Delhi</span>
+            <br>
+            <div class="col-xs-6 no-padd">
+              <div class="start-date">
+                <p id="search-date">22</p>
+              </div>
+              <div class="start-place">
+               <p id="search-month">October</p>
+               <p id="search-year">2017</p>
+              </div>
+            </div>
+            <div class="col-xs-6 text-right" style="visibility: hidden;">
+              <div class="start-date">
+                <p id="nop">1</p>
+              </div>
+              <div class="start-place">
+                <p>Traveller(s)</p>
+              </div>
+            </div>
+          </div>
+          <div class="htl-pop-botm-sect">
+            <%= image_tag('busbooking/bus-loader.gif', :alt => 'loader', :class => 'img-responsive') %>
+            <p id="bs-ld-txt">Fetch Available buses...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div id="city-source-list" data-city="<%=@citie_list.to_json%>"></div>
+  <div class="modal-backdrop fade" style="display: none;"></div>
+</div>

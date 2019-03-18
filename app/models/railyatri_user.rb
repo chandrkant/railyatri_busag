@@ -1,0 +1,2 @@
+class RailyatriUser < ApplicationRecord
+end
